@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('./css/bootstrap.min.css');
+@import url('./css/bootstrap-select.min.css');
+@import url('css/fontawesome/css/font-awesome.min.css');
+@import url('css/flaticon.min.css');
+@import url('css/animate.min.css');
+@import url('css/owl.carousel.min.css');
+@import url('css/magnific-popup.min.css');
+@import url('css/loader.min.css');
+@import url('css/switcher.css');
+@import url('css/style.css');
+@import url('css/skin/skin-1.css');
+@import url('css/custom.css');
+
+@import url('plugins/revolution/revolution/css/navigation.css');
+@import url('plugins/revolution/revolution/css/settings.css');
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+@import url('https://fonts.googleapis.com/css?family=Crete+Round:400,400i&amp;subset=latin-ext');
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
