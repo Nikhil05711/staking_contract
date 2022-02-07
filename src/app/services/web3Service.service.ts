@@ -176,4 +176,28 @@ export class Web3Service {
       return null;
     }
   }
+
+  async unfreezedPrinciple(value: any): Promise<any> {
+    const contract = await this.stakingContract;
+    const unfreezedPrinciple = contract.arguments
+      .unfreezedCapital()
+      .encodeABI();
+    const principleObject = {
+      from: this.global.getValue(),
+      to: this.global.setValue,
+      data: unfreezedPrinciple,
+      chainId: 97,
+    };
+    try {
+      const txHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [principleObject],
+      });
+      console.log('txhash of unfreezedPrinciple', txHash);
+      return txHash;
+    } catch (error) {
+      console.log('catch', error);
+      return null;
+    }
+  }
 }
