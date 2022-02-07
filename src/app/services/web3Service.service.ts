@@ -4,7 +4,7 @@ import { WEB3_CONNECT_MODAL_ID } from 'web3modal';
 import { Subject } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
-import { Globals } from './app-global';
+import { Globals } from '../SERVICES/app-global';
 const detectEthereumProvider = require('@metamask/detect-provider');
 const { RijentTokenAbi } = require('../ABI/RIJENTTOKEN.js');
 const { StakingAbi } = require('../ABI/STAKING.js');

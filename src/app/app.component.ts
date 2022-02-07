@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MetamaskService } from './services/metamask.service';
+import { MetamaskService } from './SERVICES/metamask.service';
 import { HttpClientModule } from '@angular/common/http';
 import Web3 from 'web3';
 // import { Web3Service } from './services/web3Service.service';
@@ -11,14 +11,7 @@ import Web3 from 'web3';
 })
 export class AppComponent {
   title = 'staking';
-amount!:number;
-months!:number;
-  constructor(private metamask: MetamaskService) {}
 
-  openMetamask() {
-    alert();
-    this.metamask.openMetamask().then((resp: any) => {});
-  }
 
   // stake(){
   //   alert();

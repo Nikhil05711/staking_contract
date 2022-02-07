@@ -3,21 +3,27 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MaterialModule } from './material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { Globals } from './services/app-global';
+import { Globals } from './SERVICES/app-global';
+import { BodyComponent } from './BODY/container/body/body.component';
+import { DashboardComponent } from './TABLE/container/dashboard/dashboard.component';
+import { DataComponent } from './TABLE/container/data/data.component';
+
 // import { GlobalModule } from '../app/services/app-global';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BodyComponent,
+    DashboardComponent,
+    DataComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    MaterialModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
     // GlobalModule
