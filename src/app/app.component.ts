@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { MetamaskService } from './SERVICES/metamask.service';
-import { HttpClientModule } from '@angular/common/http';
-import Web3 from 'web3';
+// import { MetamaskService } from './SERVICES/metamask.service';
+// import { HttpClientModule } from '@angular/common/http';
+// import Web3 from 'web3';
 // import { Web3Service } from './services/web3Service.service';
 
 @Component({

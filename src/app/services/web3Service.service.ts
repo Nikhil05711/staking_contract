@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import Web3 from 'web3';
-import { WEB3_CONNECT_MODAL_ID } from 'web3modal';
+// import Web3Modal from 'web3modal';
 import { Subject } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
@@ -8,6 +8,7 @@ import { Globals } from '../SERVICES/app-global';
 const detectEthereumProvider = require('@metamask/detect-provider');
 const { RijentTokenAbi } = require('../ABI/RIJENTTOKEN.js');
 const { StakingAbi } = require('../ABI/STAKING.js');
+const { testAbi } = require('../ABI/TEST.js');
 declare let window: any;
 declare let require: any;
 
@@ -15,11 +16,14 @@ declare let require: any;
   providedIn: 'root',
 })
 export class Web3Service {
+  private web3js: any;
+  // web3Modal: any;
   eve = environment;
   private provider = `${this.eve.provider}`;
   public web3Http = new Web3(new Web3.providers.HttpProvider(this.provider));
   public rijentTokenAddress = this.eve.rijecttokenaddress;
   public stakingAddress = this.eve.stakingaddress;
+  public testAddress = this.eve.testaddress;
 
   constructor(private global: Globals, private snack: MatSnackBar) {
     if (this.global.getValue()) {
@@ -38,6 +42,10 @@ export class Web3Service {
 
   public async stakingContract() {
     return new this.web3Http.eth.Contract(StakingAbi, this.stakingAddress);
+  }
+
+  public async testContract() {
+    return new this.web3Http.eth.Contract(testAbi, this.testAddress);
   }
 
   /***
@@ -101,12 +109,16 @@ export class Web3Service {
   }
 
   async stakeAmount(value: any): Promise<any> {
-    const contract = await this.stakingContract;
+    const contract = await this.testContract;
     const amount = this.web3Http.utils.toHex(
       this.web3Http.utils.toWei(value.amountOfToken.toString(), 'ether')
     );
     const months = value.monthAmountStakedfor;
-    const stake = contract.arguments.stake(amount, months).encodeABI();
+    const _interest = value.rateOfInterest;
+    console.log(amount, months, _interest);
+    const stake = contract.arguments
+      .stake(amount, months, _interest)
+      .encodeABI();
     const stakingObject = {
       from: this.global.getValue(),
       to: this.stakingAddress,
@@ -126,14 +138,9 @@ export class Web3Service {
     }
   }
 
-  async rewardGeneration(value: any): Promise<any> {
-    const contract = await this.stakingContract;
-    const year = value.planId;
-    const percentRate = value.asPerPlan;
-    const months = value.asPerPlan;
-    const rewardGeneration = contract.arguments
-      .rewardGeneration(year, percentRate, months)
-      .encodeABI();
+  async rewardGen(value: any): Promise<any> {
+    const contract = await this.testContract;
+    const rewardGeneration = contract.arguments.rewardGeneration().encodeABI();
     const rewardGeneratedObject = {
       from: this.global.getValue(),
       data: rewardGeneration,
@@ -153,11 +160,11 @@ export class Web3Service {
   }
 
   async claimed(value: any): Promise<any> {
-    const contract = await this.stakingContract;
-    const amount = this.web3Http.utils.toHex(
-      this.web3Http.utils.toWei(value.amountOfToken.toString(), 'ether')
-    );
-    const claimed = contract.arguments.claim(amount).encodeABI();
+    const contract = await this.testContract;
+    // const amount = this.web3Http.utils.toHex(
+    //   this.web3Http.utils.toWei(value.amountOfToken.toString(), 'ether')
+    // );
+    const claimed = contract.arguments.claim().encodeABI();
     const claimObject = {
       from: this.stakingAddress,
       to: this.global.getValue(),
@@ -186,6 +193,50 @@ export class Web3Service {
       from: this.global.getValue(),
       to: this.global.setValue,
       data: unfreezedPrinciple,
+      chainId: 97,
+    };
+    try {
+      const txHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [principleObject],
+      });
+      console.log('txhash of unfreezedPrinciple', txHash);
+      return txHash;
+    } catch (error) {
+      console.log('catch', error);
+      return null;
+    }
+  }
+
+  async matureAmount(value: any): Promise<any> {
+    const contract = await this.testContract;
+    const maturePrinciple = contract.arguments.matureAmount().encodeABI();
+    const principleObject = {
+      from: this.global.getValue(),
+      to: this.global.setValue,
+      data: maturePrinciple,
+      chainId: 97,
+    };
+    try {
+      const txHash = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [principleObject],
+      });
+      console.log('txhash of unfreezedPrinciple', txHash);
+      return txHash;
+    } catch (error) {
+      console.log('catch', error);
+      return null;
+    }
+  }
+
+  async claimPrinciple(value: any): Promise<any> {
+    const contract = await this.testContract;
+    const claimPrinciple = contract.arguments.matureAmount().encodeABI();
+    const principleObject = {
+      from: this.global.getValue(),
+      to: this.global.setValue,
+      data: claimPrinciple,
       chainId: 97,
     };
     try {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Web3 from 'web3';
+// import Web3Modal from "web3modal";
 declare const window: any;
 
 
@@ -8,6 +9,9 @@ declare const window: any;
 })
 export class MetamaskService {
     window:any;
+    web3js: any;
+    // web3Modal: any;
+
     constructor() { }
     private getAccounts = async () => {
         try {
